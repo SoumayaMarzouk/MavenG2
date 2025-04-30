@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 	private int id;
 	@Column(name = "nom")
 	private String nom;
-	@ManyToMany(mappedBy="Projet")
+	@ManyToMany(mappedBy="projets")
 	private List<Personne> personnes;
 	public Projet() {
 		super();

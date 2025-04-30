@@ -23,7 +23,7 @@ Liste des Départements
 </select><br>
 List des projets <br>
 <% for(Projet p:pr) {%>
-<checkbox name=projet value=<%=p.getId() %>> <%= p.getNom() %><br>
+<input type=checkbox name=projet value=<%=p.getId() %>> <%= p.getNom() %><br>
 <% } %>
 <input type=submit name=create value=Ajouter ><br>
 </form>

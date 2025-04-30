@@ -52,6 +52,16 @@ public class PersonneController extends HttpServlet {
 		request.setAttribute("personne",p);
 		RequestDispatcher rd=getServletContext().getRequestDispatcher("/personneUpdate.jsp");
 		rd.forward(request, response); 	
+		}
+		else if(request.getParameter("createForm")!=null) {
+			List<Departement> dept = deptDao.findAll();
+			List<Projet> pr = prDao.findAll();
+			request.setAttribute("listDept",dept);
+			request.setAttribute("listProjet",pr);
+			RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneCreate.jsp");
+			rd.forward(request, response); 
+			
+
 		}else {
 		List<Personne> results = pdao.findAll();
 		request.setAttribute("listPersonne",results);
@@ -67,6 +77,7 @@ public class PersonneController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String message="";
+		List<Personne> results;
 		if(request.getParameter("create")!=null) {
 		message="creation impossible";
 		String cin=request.getParameter("cin");
@@ -95,22 +106,21 @@ public class PersonneController extends HttpServlet {
 			if(pdao.update(id,cin,nom,prenom)) 
 				     message="personne "+cin+" mis a jour avec succes";
 			}
-		if(request.getParameter("createForm")!=null) {
-			List<Departement> dept = deptDao.findAll();
-			List<Projet> pr = prDao.findAll();
-			request.setAttribute("listDept",dept);
-			request.setAttribute("listProjet",pr);
-			RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneCreate.jsp");
-			rd.forward(request, response); 
-			}
-		else {
-			List<Personne> results = pdao.findAll();
+		 if(request.getParameter("search")!=null) {
+			 long id=Long.parseLong(request.getParameter("id"));
+			message="Liste filtrée par projet "+id;
+	
+			results= pdao.findByProjet(id) ;
+		 }else {
+		
+			results = pdao.findAll();
+		 }
 			request.setAttribute("listPersonne",results);
 			request.setAttribute("message",message);
 			RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneView.jsp");
 			rd.forward(request, response); 
 		}
-			}
+			
 
 	}
 
