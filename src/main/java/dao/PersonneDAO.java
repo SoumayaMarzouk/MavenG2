@@ -103,7 +103,7 @@ public class PersonneDAO {
 	public List<Personne> getPersonnesByProjet(long projetId){
 		   Session session=sessionFactory.openSession();
 		   List<Personne> result = 
-		 		session.createQuery("select distinct p from Personne as p left join fetch p.projets as pr where pr.id="+projetId, Personne.class).getResultList(); 
+		 		session.createQuery("select p from Personne as p join fetch p.projets as pr where pr.id="+projetId, Personne.class).getResultList(); 
 		   session.close(); 
 		   return result;
 		
